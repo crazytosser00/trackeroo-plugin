@@ -25,7 +25,6 @@ dependencies {
     compileOnly("com.android.tools.build:gradle:7.0.0")
     implementation("org.ow2.asm:asm:9.4")
     implementation("org.ow2.asm:asm-commons:9.4")
-    implementation("com.github.User:Repo:Version")
 }
 
 //publishing {
