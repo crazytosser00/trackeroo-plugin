@@ -1,3 +1,2 @@
-
 rootProject.name = "trackeroo-plugin"
 
