@@ -43,7 +43,10 @@ class OnClickClassVisitor(api: Int, classVisitor: ClassVisitor) : ClassVisitor(a
     ) {
         super.visit(version, access, name, signature, superName, interfaces)
         //TODO Is there any way to decrease chance for breaking a bytecode? Any cases when current filter will not work properly?
-        shouldBeVisited = interfaces?.contains("android/view/View\$OnClickListener") ?: false
+//        shouldBeVisited = interfaces?.contains("android/view/View") ?: false
+        println("$name, $signature, $superName")
+        shouldBeVisited = name?.contains("android/view/View") ?: false
+//        $OnClickListener
     }
 
     override fun visitMethod(
@@ -51,8 +54,9 @@ class OnClickClassVisitor(api: Int, classVisitor: ClassVisitor) : ClassVisitor(a
     ): MethodVisitor {
         val parentMv = super.visitMethod(access, name, descriptor, signature, exceptions)
 
-        if (shouldBeVisited && name == "onClick" && descriptor == "(Landroid/view/View;)V") {
-            return OnClickMethodVisitor(api, parentMv)
+        if (shouldBeVisited && name == "onTouchEvent" && descriptor == "(Landroid/view/MotionEvent;)Z") {
+            println("method name = $name, access = $access, descriptor = $descriptor, signature = $signature")
+            return OnViewTouchMethodVisitor(api, parentMv)
         }
 
         return parentMv
@@ -65,6 +69,24 @@ class OnClickMethodVisitor(api: Int, mv: MethodVisitor) : MethodVisitor(api, mv)
     private val generatorAdapter = GeneratorAdapter(
         ACC_PUBLIC + ACC_FINAL,
         Method("onClick", "(Landroid/view/View;)V"),
+        mv
+    )
+
+    override fun visitCode() {
+        generatorAdapter.loadArg(0)
+        generatorAdapter.invokeStatic(
+            Type.getObjectType("ru/roansa/trackeroo_core/hookers/ViewHooker"),
+            Method("onViewClick", "(Landroid/view/View;)V")
+        )
+        super.visitCode()
+    }
+}
+
+class OnViewTouchMethodVisitor(api: Int, mv: MethodVisitor): MethodVisitor(api, mv) {
+
+    private val generatorAdapter = GeneratorAdapter(
+        ACC_PUBLIC,
+        Method("onTouchEvent", "(Landroid/view/MotionEvent;)Z"),
         mv
     )
 

@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "ru.roansa.trackeroo"
-version = "0.1"
+version = "0.2"
 
 repositories {
     mavenCentral()
@@ -22,9 +22,10 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
     //TODO read more info about compileOnly
-    compileOnly("com.android.tools.build:gradle:7.0.0")
+    compileOnly("com.android.tools.build:gradle:7.1.0")
     implementation("org.ow2.asm:asm:9.4")
     implementation("org.ow2.asm:asm-commons:9.4")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 //publishing {
@@ -40,7 +41,7 @@ gradlePlugin {
         create("trackeroo-plugin") {
             id = "ru.roansa.trackeroo.trackeroo-plugin"
             group = "ru.roansa"
-            version = "0.1-alpha"
+            version = "0.2-alpha"
             displayName = "Trackeroo plugin"
             description = "Lorem ipsum"
             implementationClass = "ru.roansa.trackeroo.trackeroo_plugin.ASMPlugin"
@@ -58,4 +59,12 @@ tasks.withType<KotlinCompile> {
 
 application {
     mainClass.set("MainKt")
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }

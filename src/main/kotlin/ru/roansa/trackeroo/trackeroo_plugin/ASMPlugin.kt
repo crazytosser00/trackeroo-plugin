@@ -43,13 +43,6 @@ class ASMPlugin : Plugin<Project> {
                  * described in AsmClassVisitorFactory implementations
                  */
                 it.transformClassesWith(
-                    OnClickTransformationFactory::class.java,
-                    InstrumentationScope.ALL
-                ) {
-                    //empty block
-                }
-
-                it.transformClassesWith(
                     LogTransformationFactory::class.java,
                     InstrumentationScope.ALL
                 ) {
