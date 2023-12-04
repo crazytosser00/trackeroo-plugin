@@ -4,13 +4,13 @@ plugins {
     `maven-publish`
     `kotlin-dsl`
     id("java-gradle-plugin")
-    kotlin("jvm") version "1.5.10"
-    kotlin("android") version "1.5.10" apply false
+    kotlin("jvm") version "1.5.20"
+    kotlin("android") version "1.5.20" apply false
     application
 }
 
 group = "ru.roansa.trackeroo"
-version = "0.2"
+version = "0.2.1"
 
 repositories {
     mavenCentral()
@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
     //TODO read more info about compileOnly
     compileOnly("com.android.tools.build:gradle:7.1.0")
     implementation("org.ow2.asm:asm:9.4")
@@ -41,7 +41,7 @@ gradlePlugin {
         create("trackeroo-plugin") {
             id = "ru.roansa.trackeroo.trackeroo-plugin"
             group = "ru.roansa"
-            version = "0.2-alpha"
+            version = "0.2.1-alpha"
             displayName = "Trackeroo plugin"
             description = "Lorem ipsum"
             implementationClass = "ru.roansa.trackeroo.trackeroo_plugin.ASMPlugin"
